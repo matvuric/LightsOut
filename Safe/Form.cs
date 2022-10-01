@@ -5,10 +5,10 @@ namespace Safe
         private int size;
         private int steps;
         private int lightsQuantity;
-        
-        // Array of buttons
+
+        private int[,] colors = new int[,] { { 1, 1, 0, 1, 0 }, { 0, 1, 1, 0, 1 }, { 1, 0, 1, 1, 0 }, { 1, 0, 1, 1, 0 }, { 0, 1, 0, 0, 0 } };
         private Button[,] lights;
-        internal MessageBoxButtons MB_OK { get; private set; }
+
         public Form()
         {
             InitializeComponent();
@@ -17,17 +17,31 @@ namespace Safe
         private void Setup()
         {
             lights = new Button[size, size];
-            // Loop through all lights to generate the buttons on form
-            for (int i = 0; i < lights.GetLength(1); i++)
+            int lightsQuantityInRow = 0;
+            int lightsQuantityInColumn = 0;
+            for (int i = 0; i < size; i++)
             {
-                for (int j = 0; j < lights.GetLength(0); j++)
+                for (int j = 0; j < size; j++)
                 {
-                    lights[i, j] = new Button();
-                    lights[i, j].Size = new Size(40, 40);
-                    // Name of button object is index in 3D array
-                    lights[i, j].Name = i.ToString() + ' ' + j.ToString();
+                    lights[i, j] = new Button
+                    {
+                        Size = new Size(40, 40),
+                        Name = i.ToString() + ' ' + j.ToString(),
+                        Location = new Point(10 + (j * 50), 10 + (i * 50))
+                    };
                     lights[i, j].Click += LightClick!;
-                    lights[i, j].Location = new Point(10 + (j * 50), 10 + (i * 50));
+
+
+                    /*if (colors[i, j] == 1)
+                    {
+                        lights[i, j].BackColor = Color.Yellow;
+                        lightsQuantity++;
+                    }
+                    else
+                    {
+                        lights[i, j].BackColor = Color.Black;
+                    }*/
+
                     Random rand = new();
                     if (rand.Next(0, 2) == 0)
                     {
@@ -38,6 +52,7 @@ namespace Safe
                         lights[i, j].BackColor = Color.Yellow;
                         lightsQuantity++;
                     }
+
                     Controls.Add(lights[i, j]);
                 }
             }
@@ -47,16 +62,63 @@ namespace Safe
                 lights[0, 0].BackColor = Color.Yellow;
                 lightsQuantity++;
             }
+
+            if (size % 2 == 1)
+            {
+                TestSetup();
+            }
+        }
+
+        private void TestSetup()
+        {
+            int[] rowsSum = new int[size];
+            int[] colsSum = new int[size];
+
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (lights[i, j].BackColor == Color.Yellow)
+                    {
+                        rowsSum[i] ^= 1;
+                    };
+                }
+            }
+
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                {
+                    if (lights[j, i].BackColor == Color.Yellow)
+                    {
+                        colsSum[i] ^= 1;
+                    };
+                }
+            }
+            int sum = 0;
+            for (int i = 0; i < size; i++)
+            {
+                if (rowsSum[0] != rowsSum[i] || rowsSum[0] != colsSum[i])
+                {
+                    sum++;
+                }
+            }
+
+            if (sum != 0)
+            {
+                restartBtn_Click(null, null);
+            }
         }
 
         private void LightClick(object sender, EventArgs e)
         {
-            Button b = (Button)sender; //Clicked object is a Button
-            // Get the index of the button clicked
-            string[] arr = b.Name.Split(' ');
+            Button btn = (Button)sender;
+
+            string[] arr = btn.Name.Split(' ');
             int i = int.Parse(arr[0]);
             int j = int.Parse(arr[1]);
-            StepQuantity.Text = Convert.ToString(++steps);
+            ChangeStep(++steps);
 
             // Invert button clicked
             InvertHandler(i, j);
@@ -93,22 +155,45 @@ namespace Safe
 
         private void CheckEnd()
         {
-            // Check if all lights are off
-            if (lightsQuantity == 0)
+            if (lightsQuantity == 0 || lightsQuantity == size * size)
             {
-                // Display message to user
-                MessageBox.Show("Game Completed!",
-                    "Congratulations!",
-                     MB_OK);
-                // Close Application
-                Application.Exit();
+                menuBtn_Click(null, null);
             }
+        }
+
+        private void Reset()
+        {
+            lightsQuantity = 0;
+            steps = 0;
+            ChangeStep(0);
+
+            foreach (Button btn in lights)
+            {
+                Controls.Remove(btn);
+            }
+        }
+
+        private void ChangeStep(int step)
+        {
+            steps = step;
+            stepQuantity.Text = Convert.ToString(steps);
+        }
+
+        private void SetVisibility(bool v)
+        {
+            comboBox.Visible = v;
+            gridLabel.Visible = v;
+            submitBtn.Visible = v;
+            stepLabel.Visible = !v;
+            stepQuantity.Visible = !v;
+            restartBtn.Visible = !v;
+            menuBtn.Visible = !v;
         }
 
         private void BtnMouseEnter(object sender, EventArgs e)
         {
             Label btn = (Label)sender;
-            btn.ForeColor = Color.LightCoral;  
+            btn.ForeColor = Color.LightCoral;
         }
 
         private void BtnMouseLeave(object sender, EventArgs e)
@@ -117,25 +202,29 @@ namespace Safe
             btn.ForeColor = Color.Turquoise;
         }
 
-        private void SubmitBtn_Click(object sender, EventArgs e)
+        private void submitBtn_Click(object sender, EventArgs e)
         {
-            size = (int)ComboBox.SelectedItem;
-            ComboBox.Visible = false;
-            GridLabel.Visible = false;
-            SubmitBtn.Visible = false;
+            size = (int)comboBox.SelectedItem;
+            SetVisibility(false);
             // Turn on a random number of lights to start game
             Setup();
         }
 
-        private void NewGameBtn_Click(object sender, EventArgs e)
+        private void restartBtn_Click(object? sender, EventArgs? e)
         {
-            size = (int)ComboBox.SelectedItem;
-            ComboBox.Visible = false;
-            GridLabel.Visible = false;
-            SubmitBtn.Visible = false;
-            // Turn on a random number of lights to start game
+            Reset();
             Setup();
         }
 
+        private void menuBtn_Click(object? sender, EventArgs? e)
+        {
+            Reset();
+            SetVisibility(true);
+        }
+
+        private void ComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

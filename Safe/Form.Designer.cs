@@ -28,32 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.GridLabel = new System.Windows.Forms.Label();
-            this.ComboBox = new System.Windows.Forms.ComboBox();
-            this.SubmitBtn = new System.Windows.Forms.Label();
-            this.StepLabel = new System.Windows.Forms.Label();
-            this.StepQuantity = new System.Windows.Forms.Label();
-            this.NewGameBtn = new System.Windows.Forms.Label();
+            this.gridLabel = new System.Windows.Forms.Label();
+            this.comboBox = new System.Windows.Forms.ComboBox();
+            this.submitBtn = new System.Windows.Forms.Label();
+            this.stepLabel = new System.Windows.Forms.Label();
+            this.stepQuantity = new System.Windows.Forms.Label();
+            this.restartBtn = new System.Windows.Forms.Label();
+            this.menuBtn = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gridLabel
             // 
-            this.GridLabel.AutoSize = true;
-            this.GridLabel.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.GridLabel.ForeColor = System.Drawing.Color.White;
-            this.GridLabel.Location = new System.Drawing.Point(207, 66);
-            this.GridLabel.Name = "gridLabel";
-            this.GridLabel.Size = new System.Drawing.Size(173, 30);
-            this.GridLabel.TabIndex = 1;
-            this.GridLabel.Text = "Grid Size:";
+            this.gridLabel.AutoSize = true;
+            this.gridLabel.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.gridLabel.ForeColor = System.Drawing.Color.White;
+            this.gridLabel.Location = new System.Drawing.Point(387, 276);
+            this.gridLabel.Name = "gridLabel";
+            this.gridLabel.Size = new System.Drawing.Size(173, 30);
+            this.gridLabel.TabIndex = 1;
+            this.gridLabel.Text = "Grid Size:";
             // 
             // comboBox
             // 
-            this.ComboBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ComboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.ComboBox.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.ComboBox.FormattingEnabled = true;
-            this.ComboBox.Items.AddRange(new object[] {
+            this.comboBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.comboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.comboBox.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.comboBox.FormattingEnabled = true;
+            this.comboBox.Items.AddRange(new object[] {
             2,
             3,
             4,
@@ -73,77 +74,99 @@
             18,
             19,
             20});
-            this.ComboBox.Location = new System.Drawing.Point(386, 63);
-            this.ComboBox.Name = "comboBox";
-            this.ComboBox.Size = new System.Drawing.Size(50, 39);
-            this.ComboBox.TabIndex = 2;
-            this.ComboBox.Text = "4";
+            this.comboBox.Location = new System.Drawing.Point(566, 273);
+            this.comboBox.Name = "comboBox";
+            this.comboBox.Size = new System.Drawing.Size(50, 38);
+            this.comboBox.TabIndex = 2;
+            this.comboBox.Text = "4";
+            this.comboBox.SelectedIndexChanged += new System.EventHandler(this.ComboBox_SelectedIndexChanged);
             // 
             // submitBtn
             // 
-            this.SubmitBtn.AutoSize = true;
-            this.SubmitBtn.BackColor = System.Drawing.Color.Transparent;
-            this.SubmitBtn.Font = new System.Drawing.Font("Courier New", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.SubmitBtn.ForeColor = System.Drawing.Color.Turquoise;
-            this.SubmitBtn.Location = new System.Drawing.Point(271, 113);
-            this.SubmitBtn.Name = "submitBtn";
-            this.SubmitBtn.Size = new System.Drawing.Size(109, 30);
-            this.SubmitBtn.TabIndex = 4;
-            this.SubmitBtn.Text = "Submit";
-            this.SubmitBtn.Click += new System.EventHandler(this.SubmitBtn_Click);
-            this.SubmitBtn.MouseEnter += new System.EventHandler(this.BtnMouseEnter);
-            this.SubmitBtn.MouseLeave += new System.EventHandler(this.BtnMouseLeave);
+            this.submitBtn.AutoSize = true;
+            this.submitBtn.BackColor = System.Drawing.Color.Transparent;
+            this.submitBtn.Font = new System.Drawing.Font("Courier New", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.submitBtn.ForeColor = System.Drawing.Color.Turquoise;
+            this.submitBtn.Location = new System.Drawing.Point(445, 321);
+            this.submitBtn.Name = "submitBtn";
+            this.submitBtn.Size = new System.Drawing.Size(109, 30);
+            this.submitBtn.TabIndex = 4;
+            this.submitBtn.Text = "Submit";
+            this.submitBtn.Click += new System.EventHandler(this.submitBtn_Click);
+            this.submitBtn.MouseEnter += new System.EventHandler(this.BtnMouseEnter);
+            this.submitBtn.MouseLeave += new System.EventHandler(this.BtnMouseLeave);
             // 
             // stepLabel
             // 
-            this.StepLabel.AutoSize = true;
-            this.StepLabel.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.StepLabel.ForeColor = System.Drawing.Color.White;
-            this.StepLabel.Location = new System.Drawing.Point(737, 66);
-            this.StepLabel.Name = "stepLabel";
-            this.StepLabel.Size = new System.Drawing.Size(109, 30);
-            this.StepLabel.TabIndex = 5;
-            this.StepLabel.Text = "Steps:";
+            this.stepLabel.AutoSize = true;
+            this.stepLabel.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.stepLabel.ForeColor = System.Drawing.Color.White;
+            this.stepLabel.Location = new System.Drawing.Point(429, 9);
+            this.stepLabel.Name = "stepLabel";
+            this.stepLabel.Size = new System.Drawing.Size(109, 30);
+            this.stepLabel.TabIndex = 5;
+            this.stepLabel.Text = "Steps:\r\n";
+            this.stepLabel.Visible = false;
             // 
             // stepQuantity
             // 
-            this.StepQuantity.AutoSize = true;
-            this.StepQuantity.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.StepQuantity.ForeColor = System.Drawing.Color.White;
-            this.StepQuantity.Location = new System.Drawing.Point(838, 66);
-            this.StepQuantity.Name = "stepQuantity";
-            this.StepQuantity.Size = new System.Drawing.Size(30, 31);
-            this.StepQuantity.TabIndex = 6;
-            this.StepQuantity.Text = "0";
+            this.stepQuantity.AutoSize = true;
+            this.stepQuantity.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.stepQuantity.ForeColor = System.Drawing.Color.White;
+            this.stepQuantity.Location = new System.Drawing.Point(534, 9);
+            this.stepQuantity.Name = "stepQuantity";
+            this.stepQuantity.Size = new System.Drawing.Size(29, 30);
+            this.stepQuantity.TabIndex = 6;
+            this.stepQuantity.Text = "0";
+            this.stepQuantity.Visible = false;
             // 
-            // newGameBtn
+            // restartBtn
             // 
-            this.NewGameBtn.AutoSize = true;
-            this.NewGameBtn.BackColor = System.Drawing.Color.Transparent;
-            this.NewGameBtn.Font = new System.Drawing.Font("Courier New", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.NewGameBtn.ForeColor = System.Drawing.Color.Turquoise;
-            this.NewGameBtn.Location = new System.Drawing.Point(737, 113);
-            this.NewGameBtn.Name = "newGameBtn";
-            this.NewGameBtn.Size = new System.Drawing.Size(141, 30);
-            this.NewGameBtn.TabIndex = 7;
-            this.NewGameBtn.Text = "New Game";
-            this.NewGameBtn.Click += new System.EventHandler(this.NewGameBtn_Click);
-            this.NewGameBtn.MouseEnter += new System.EventHandler(this.BtnMouseEnter);
-            this.NewGameBtn.MouseLeave += new System.EventHandler(this.BtnMouseLeave);
+            this.restartBtn.AutoSize = true;
+            this.restartBtn.BackColor = System.Drawing.Color.Transparent;
+            this.restartBtn.Font = new System.Drawing.Font("Courier New", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.restartBtn.ForeColor = System.Drawing.Color.Turquoise;
+            this.restartBtn.Location = new System.Drawing.Point(257, 9);
+            this.restartBtn.Name = "restartBtn";
+            this.restartBtn.Size = new System.Drawing.Size(125, 30);
+            this.restartBtn.TabIndex = 7;
+            this.restartBtn.Text = "Restart";
+            this.restartBtn.Visible = false;
+            this.restartBtn.Click += new System.EventHandler(this.restartBtn_Click);
+            this.restartBtn.Click += new System.EventHandler(this.restartBtn_Click);
+            this.restartBtn.MouseEnter += new System.EventHandler(this.BtnMouseEnter);
+            this.restartBtn.MouseLeave += new System.EventHandler(this.BtnMouseLeave);
             // 
-            // Form1
+            // menuBtn
+            // 
+            this.menuBtn.AutoSize = true;
+            this.menuBtn.BackColor = System.Drawing.Color.Transparent;
+            this.menuBtn.Font = new System.Drawing.Font("Courier New", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.menuBtn.ForeColor = System.Drawing.Color.Turquoise;
+            this.menuBtn.Location = new System.Drawing.Point(618, 9);
+            this.menuBtn.Name = "menuBtn";
+            this.menuBtn.Size = new System.Drawing.Size(77, 30);
+            this.menuBtn.TabIndex = 8;
+            this.menuBtn.Text = "Menu";
+            this.menuBtn.Visible = false;
+            this.menuBtn.Click += new System.EventHandler(this.menuBtn_Click);
+            this.menuBtn.MouseEnter += new System.EventHandler(this.BtnMouseEnter);
+            this.menuBtn.MouseLeave += new System.EventHandler(this.BtnMouseLeave);
+            // 
+            // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(984, 665);
-            this.Controls.Add(this.NewGameBtn);
-            this.Controls.Add(this.StepQuantity);
-            this.Controls.Add(this.StepLabel);
-            this.Controls.Add(this.SubmitBtn);
-            this.Controls.Add(this.ComboBox);
-            this.Controls.Add(this.GridLabel);
-            this.Name = "Form1";
+            this.Controls.Add(this.menuBtn);
+            this.Controls.Add(this.restartBtn);
+            this.Controls.Add(this.stepQuantity);
+            this.Controls.Add(this.stepLabel);
+            this.Controls.Add(this.submitBtn);
+            this.Controls.Add(this.comboBox);
+            this.Controls.Add(this.gridLabel);
+            this.Name = "Form";
             this.Text = "Safe";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -151,11 +174,12 @@
         }
 
         #endregion
-        private Label GridLabel;
-        private ComboBox ComboBox;
-        private Label SubmitBtn;
-        private Label StepLabel;
-        private Label StepQuantity;
-        private Label NewGameBtn;
+        private Label gridLabel;
+        private ComboBox comboBox;
+        private Label submitBtn;
+        private Label stepLabel;
+        private Label stepQuantity;
+        private Label restartBtn;
+        private Label menuBtn;
     }
 }
