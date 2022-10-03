@@ -79,7 +79,6 @@
             this.comboBox.Size = new System.Drawing.Size(50, 38);
             this.comboBox.TabIndex = 2;
             this.comboBox.Text = "4";
-            this.comboBox.SelectedIndexChanged += new System.EventHandler(this.ComboBox_SelectedIndexChanged);
             // 
             // submitBtn
             // 
@@ -132,7 +131,6 @@
             this.restartBtn.TabIndex = 7;
             this.restartBtn.Text = "Restart";
             this.restartBtn.Visible = false;
-            this.restartBtn.Click += new System.EventHandler(this.restartBtn_Click);
             this.restartBtn.Click += new System.EventHandler(this.restartBtn_Click);
             this.restartBtn.MouseEnter += new System.EventHandler(this.BtnMouseEnter);
             this.restartBtn.MouseLeave += new System.EventHandler(this.BtnMouseLeave);
