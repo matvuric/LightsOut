@@ -4,25 +4,28 @@ namespace Safe
     {
         private int gridSize;
         private int steps;
-        private int lightsQuantity;
+        private int lightQuantity;
 
         private readonly Random rand = new();
 
-        private int[]? rowsSum;
-        private int[]? colsSum;
+        private int[]? rowSum;
+        private int[]? colSum;
 
+        private Dictionary<int, int>? records;
+        private Label[]? recordLabels;
         private Button[,]? lights;
 
         public Form()
         {
             InitializeComponent();
+            RecordsSetup();
         }
 
         private void Setup()
         {
             lights = new Button[gridSize, gridSize];
-            rowsSum = new int[gridSize];
-            colsSum = new int[gridSize];
+            rowSum = new int[gridSize];
+            colSum = new int[gridSize];
 
             if (gridSize % 2 == 0)
             {
@@ -61,7 +64,7 @@ namespace Safe
                     {
                         int lightsInRow;
 
-                        if (rowsSum[0] % 2 == 0)
+                        if (rowSum[0] % 2 == 0)
                         {
                             lightsInRow = GenerateRandomOddNum(0);
                         }
@@ -81,7 +84,7 @@ namespace Safe
 
             // Check if empty or full
 
-            if (lightsQuantity == 0 || lightsQuantity == gridSize * gridSize)
+            if (lightQuantity == 0 || lightQuantity == gridSize * gridSize)
             {
                 restartBtn_Click(null, null);
             }
@@ -141,7 +144,7 @@ namespace Safe
             {
                 InitializeBtn(i, j);
 
-                if (colsSum![j] % 2 != rowsSum![0])
+                if (colSum![j] % 2 != rowSum![0])
                 {
                     Light(i, j);
                 }
@@ -163,7 +166,6 @@ namespace Safe
                 Size = new Size(40, 40),
                 Name = i.ToString() + ' ' + j.ToString(),
                 FlatStyle = FlatStyle.Flat
-
             };
 
             if (gridSize < 13)
@@ -176,15 +178,15 @@ namespace Safe
                 lights![i, j].Location = new Point(40 + (j * 50), 40 + (i * 50));
             }
 
-            lights[i, j].Click += LightClick!;
+            lights[i, j].Click += InvertClick!;
         }
 
         private void Light(int i, int j)
         {
             lights![i, j].BackColor = Color.LightCoral;
-            lightsQuantity++;
-            rowsSum![i] ^= 1;
-            colsSum![j] ^= 1;
+            lightQuantity++;
+            rowSum![i] ^= 1;
+            colSum![j] ^= 1;
         }
 
         private void FadeOut(int i, int j)
@@ -205,7 +207,7 @@ namespace Safe
             return num;
         }
 
-        private void LightClick(object sender, EventArgs e)
+        private void InvertClick(object sender, EventArgs e)
         {
             Button btn = (Button)sender;
             string[] arr = btn.Name.Split(' ');
@@ -217,8 +219,15 @@ namespace Safe
 
             // Check end
 
-            if (lightsQuantity == 0 || lightsQuantity == gridSize * gridSize)
+            if (lightQuantity == 0 || lightQuantity == gridSize * gridSize)
             {
+                if (records![gridSize] > steps || records[gridSize] == 0)
+                {
+                    records[gridSize] = steps;
+                    recordLabels![gridSize - 2].Text = $"{records.ElementAt(gridSize - 2).Key}x{records.ElementAt(gridSize - 2).Key}:{steps}";
+                    WriteFile();
+                    ReadFile();
+                }
                 menuBtn_Click(null, null);
             }
         }
@@ -241,12 +250,12 @@ namespace Safe
             if (b.BackColor == Color.LightCoral)
             {
                 b.BackColor = Color.Turquoise;
-                lightsQuantity--;
+                lightQuantity--;
             }
             else
             {
                 b.BackColor = Color.LightCoral;
-                lightsQuantity++;
+                lightQuantity++;
             }
         }
 
@@ -258,7 +267,7 @@ namespace Safe
 
         private void ResetGrid()
         {
-            lightsQuantity = 0;
+            lightQuantity = 0;
             ChangeStep(0);
 
             foreach (Button btn in lights!)
@@ -272,6 +281,12 @@ namespace Safe
             comboBox.Visible = v;
             gridLabel.Visible = v;
             submitBtn.Visible = v;
+            recordLabel.Visible = v;
+            foreach (Label lbl in recordLabels!)
+            {
+                lbl.Visible = v;
+            }
+
             stepLabel.Visible = !v;
             stepQuantity.Visible = !v;
             restartBtn.Visible = !v;
@@ -309,6 +324,87 @@ namespace Safe
         {
             Label btn = (Label)sender;
             btn.ForeColor = Color.Turquoise;
+        }
+
+        #endregion
+
+        #region RecordsHandler
+
+        private void RecordsSetup()
+        {
+            records = new Dictionary<int, int>();
+            recordLabels = new Label[comboBox.Items.Count];
+
+            try
+            {
+                ReadFile();
+            }
+            catch (FileNotFoundException)
+            {
+                records = new Dictionary<int, int>()
+                {
+                    {2, 0},
+                    {3, 0},
+                    {4, 0},
+                    {5, 0},
+                    {6, 0},
+                    {7, 0},
+                    {8, 0},
+                    {9, 0},
+                    {10, 0},
+                    {11, 0},
+                    {12, 0},
+                    {13, 0},
+                    {14, 0},
+                    {15, 0},
+                    {16, 0},
+                    {17, 0},
+                    {18, 0},
+                    {19, 0},
+                    {20, 0}
+                };
+
+                WriteFile();
+            }
+
+            for (int i = 0; i < recordLabels.Length; i++)
+            {
+                recordLabels[i] = new Label
+                {
+                    AutoSize = true,
+                    Font = new Font("Courier New", 16F, FontStyle.Regular, GraphicsUnit.Point),
+                    ForeColor = Color.White,
+                    Location = new Point(50, 60 + i * 30),
+                    Text = $"{records.ElementAt(i).Key}x{records.ElementAt(i).Key}:{(records.ElementAt(i).Value == 0 ? "No record": records.ElementAt(i).Value)}"
+                };
+
+                Controls.Add(recordLabels[i]);
+            }
+        }
+
+        private void WriteFile()
+        {
+            using StreamWriter sw = new("Records.txt");
+
+            foreach (var rec in records!)
+            {
+                sw.WriteLine($"{rec.Key} {rec.Value}");
+            }
+        }
+
+        private void ReadFile()
+        {
+            string line = "";
+
+            using StreamReader sr = new("Records.txt");
+
+            while ((line = sr.ReadLine()!) != null)
+            {
+                string[] arr = line.Split(' ');
+                int x = int.Parse(arr[0]);
+                int y = int.Parse(arr[1]);
+                records![x] = y;
+            }
         }
 
         #endregion

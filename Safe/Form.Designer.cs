@@ -35,6 +35,7 @@
             this.stepQuantity = new System.Windows.Forms.Label();
             this.restartBtn = new System.Windows.Forms.Label();
             this.menuBtn = new System.Windows.Forms.Label();
+            this.recordLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // gridLabel
@@ -151,12 +152,24 @@
             this.menuBtn.MouseEnter += new System.EventHandler(this.BtnMouseEnter);
             this.menuBtn.MouseLeave += new System.EventHandler(this.BtnMouseLeave);
             // 
+            // recordLabel
+            // 
+            this.recordLabel.AutoSize = true;
+            this.recordLabel.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.recordLabel.ForeColor = System.Drawing.Color.White;
+            this.recordLabel.Location = new System.Drawing.Point(50, 9);
+            this.recordLabel.Name = "recordLabel";
+            this.recordLabel.Size = new System.Drawing.Size(141, 30);
+            this.recordLabel.TabIndex = 9;
+            this.recordLabel.Text = "Records:";
+            // 
             // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(44)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(984, 665);
+            this.Controls.Add(this.recordLabel);
             this.Controls.Add(this.menuBtn);
             this.Controls.Add(this.restartBtn);
             this.Controls.Add(this.stepQuantity);
@@ -179,5 +192,6 @@
         private Label stepQuantity;
         private Label restartBtn;
         private Label menuBtn;
+        private Label recordLabel;
     }
 }
