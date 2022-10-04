@@ -52,9 +52,11 @@
             // comboBox
             // 
             this.comboBox.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.comboBox.DropDownHeight = 250;
             this.comboBox.FlatStyle = System.Windows.Forms.FlatStyle.System;
             this.comboBox.Font = new System.Drawing.Font("Courier New", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.comboBox.FormattingEnabled = true;
+            this.comboBox.IntegralHeight = false;
             this.comboBox.Items.AddRange(new object[] {
             2,
             3,
